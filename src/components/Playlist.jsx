@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Playlist = ({ tracks, removeTrackFromPlaylist }) => {
+const Playlist = ({ tracks, removeTrackFromPlaylist, savePlaylistToSpotify }) => {
   const [playlistName, setPlaylistName] = useState('My Playlist');
 
   const renamePlaylist = (e) => {
@@ -23,6 +23,7 @@ const Playlist = ({ tracks, removeTrackFromPlaylist }) => {
           </li>
         ))}
       </ul>
+      <button onClick={() => savePlaylistToSpotify(playlistName)}>Save Playlist to Spotify</button>
     </div>
   );
 };

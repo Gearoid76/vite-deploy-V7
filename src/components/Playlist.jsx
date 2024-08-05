@@ -1,4 +1,3 @@
-// src/components/Playlist.jsx
 import React, { useState } from 'react';
 import '../App.css';
 
@@ -10,14 +9,20 @@ const Playlist = ({ tracks, removeTrackFromPlaylist, savePlaylistToSpotify }) =>
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        value={playlistName}
-        onChange={renamePlaylist}
-        placeholder="Rename Playlist"
-      />
-      <ul>
+    <div className="playlist-container">
+      <div className="playlist-header">
+        <input
+          type="text"
+          value={playlistName}
+          onChange={renamePlaylist}
+          placeholder="Rename Playlist"
+          className="playlist-name-input"
+        />
+        <button onClick={() => savePlaylistToSpotify(playlistName)} className="save-playlist-button">
+          Save Playlist to Spotify
+        </button>
+      </div>
+      <ul className="playlist-tracks">
         {tracks.map((track) => (
           <li key={track.id}>
             {track.name} by {track.artists[0].name}
@@ -25,7 +30,6 @@ const Playlist = ({ tracks, removeTrackFromPlaylist, savePlaylistToSpotify }) =>
           </li>
         ))}
       </ul>
-      <button onClick={() => savePlaylistToSpotify(playlistName)}>Save Playlist to Spotify</button>
     </div>
   );
 };

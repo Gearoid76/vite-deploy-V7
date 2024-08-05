@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import getSpotifyToken from '../spotifyAuth';
 
-const SearchBar = () => {
+const SearchBar = ({ addTrackToPlaylist }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
 
@@ -39,6 +39,7 @@ const SearchBar = () => {
         {results.map((track) => (
           <li key={track.id}>
             {track.name} by {track.artists[0].name}
+            <button onClick={() => addTrackToPlaylist(track)}>Add to Playlist</button>
           </li>
         ))}
       </ul>

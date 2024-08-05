@@ -1,3 +1,4 @@
+// src/components/SearchBar.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import getSpotifyToken from '../spotifyAuth';
@@ -11,8 +12,8 @@ const SearchBar = ({ addTrackToPlaylist }) => {
     e.preventDefault();
 
     const token = await getSpotifyToken();
-    
-    const response = await axios.get(`https://api.spotify.com/v1/search`, {
+
+    const response = await axios.get('https://api.spotify.com/v1/search', {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -26,24 +27,27 @@ const SearchBar = ({ addTrackToPlaylist }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSearch}>
+    <div className="search-bar-container">
+      <form onSubmit={handleSearch} className="search-bar-form">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for a song"
+          className="search-bar-input"
         />
-        <button type="submit">Search</button>
+        <button type="submit" className="search-bar-button">Search</button>
       </form>
-      <ul>
-        {results.map((track) => (
-          <li key={track.id}>
-            {track.name} by {track.artists[0].name}
-            <button onClick={() => addTrackToPlaylist(track)}>add to playlist</button>
-          </li>
-        ))}
-      </ul>
+      <div className="search-results-container">
+        <ul className="search-results-list">
+          {results.map((track) => (
+            <li key={track.id}>
+              {track.name} by {track.artists[0].name}
+              <button onClick={() => addTrackToPlaylist(track)}>Add to Playlist</button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

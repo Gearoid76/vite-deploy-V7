@@ -1,4 +1,6 @@
+// src/components/Playlist.jsx
 import React, { useState } from 'react';
+import '../App.css';
 
 const Playlist = ({ tracks, removeTrackFromPlaylist, savePlaylistToSpotify }) => {
   const [playlistName, setPlaylistName] = useState('My Playlist');

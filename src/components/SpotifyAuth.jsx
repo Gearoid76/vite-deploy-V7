@@ -1,27 +1,42 @@
+// src/components/SpotifyAuth.jsx
 import React, { useEffect } from 'react';
-import { useOAuth2 } from 'react-oauth2-hook';
-import axios from 'axios';
+import { AuthProvider, useAuth } from 'react-oauth2-pkce';
 
 const SpotifyAuth = ({ onToken }) => {
-  const [authorize, { authData, error }] = useOAuth2({
-    authorizeUrl: 'https://accounts.spotify.com/authorize',
-    clientID: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
-    redirectUri: window.location.origin,
-    scope: 'playlist-modify-public playlist-modify-private',
-  });
+  const { authService } = useAuth();
 
   useEffect(() => {
-    if (authData) {
-      onToken(authData.access_token);
+    if (authService && authService.isAuthenticated()) {
+      const accessToken = authService.getAuthTokens().access_token;
+      onToken(accessToken);
     }
-  }, [authData]);
+  }, [authService, onToken]);
+
+  const login = () => {
+    if (authService) {
+      authService.authorize();
+    }
+  };
 
   return (
     <div>
-      <button onClick={authorize}>Login to Spotify</button>
-      {error && <p>Error: {error.message}</p>}
+      <button onClick={login}>Login to Spotify</button>
     </div>
   );
 };
 
-export default SpotifyAuth;
+const AuthWrapper = ({ children, onToken }) => (
+  <AuthProvider
+    authConfig={{
+      clientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
+      authorizationEndpoint: 'https://accounts.spotify.com/authorize',
+      redirectUri: window.location.origin,
+      scopes: ['playlist-modify-public', 'playlist-modify-private'],
+    }}
+  >
+    <SpotifyAuth onToken={onToken} />
+    {children}
+  </AuthProvider>
+);
+
+export default AuthWrapper;

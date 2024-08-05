@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import SearchBar from './components/SearchBar';
 import Playlist from './components/Playlist';
 import SpotifyAuth from './components/SpotifyAuth';
+import './App.css';
+ 
 
 const App = () => {
   const [playlistTracks, setPlaylistTracks] = useState([]);
@@ -67,14 +69,14 @@ const App = () => {
 
   return (
     <div>
-      <h1>Spotify Search and Playlist</h1>
+      <h1>Muusic(k)</h1>
       <SpotifyAuth onToken={setSpotifyToken} />
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
           <h2>Search Results</h2>
           <SearchBar addTrackToPlaylist={addTrackToPlaylist} />
         </div>
-        <div>
+        <div className='Playlist-Container'>
           <h2>Playlist</h2>
           <Playlist
             tracks={playlistTracks}
